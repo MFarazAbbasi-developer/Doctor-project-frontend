@@ -5,13 +5,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 
-export default function SocialLogin() {
+export default function SocialLoginPage() {
+  return <SocialLoginClient />;
+}
+
+// Client-side component to avoid SSR issues
+function SocialLoginClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { setUser, setIsAuthenticated, setRole } = useAuth();
 
   useEffect(() => {
-    if (!searchParams) return; // <-- ensure it exists
+    if (!searchParams) return;
 
     const token = searchParams.get("token");
     if (!token) {
@@ -20,7 +25,7 @@ export default function SocialLogin() {
       return;
     }
 
-    // browser-only
+    // browser-only cookie
     if (typeof document !== "undefined") {
       document.cookie = `token=${token}; path=/; max-age=${7 * 24 * 60 * 60}`;
     }
