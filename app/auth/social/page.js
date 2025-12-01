@@ -1,12 +1,22 @@
 // app/auth/social/page.js
-"use client"; // ✅ important
+import { Suspense } from "react";
 
+export default function SocialLoginPageWrapper() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <SocialLoginClient />
+    </Suspense>
+  );
+}
+
+// Move the client component into the same file
+"use client";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 
-export default function SocialLoginPage() {
+function SocialLoginClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { setUser, setIsAuthenticated, setRole } = useAuth();
