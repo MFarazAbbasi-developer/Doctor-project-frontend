@@ -1,6 +1,3 @@
-"use client"; // Make this layout client-side
-
-import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -8,20 +5,17 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { Poppins } from "next/font/google";
 import { ToastContainer } from "react-toastify";
-import FloatingContact from "@/components/FloatingContact";
+import ClientWrapper from "./ClientWrapper";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-poppins",
 });
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
+  variable: "--font-geist-mono",
 });
 
 export const metadata = {
@@ -37,11 +31,7 @@ export default function RootLayout({ children }) {
       >
         <AuthProvider>
           <Navbar />
-          {/* <FloatingContact /> */}
-
-          {/* Wrap children in Suspense for client-side hooks */}
-          <Suspense fallback={<p>Loading...</p>}>{children}</Suspense>
-
+          <ClientWrapper>{children}</ClientWrapper>
           <Footer />
           <ToastContainer
             position="top-right"
