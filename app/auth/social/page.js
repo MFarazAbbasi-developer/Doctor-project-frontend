@@ -16,8 +16,6 @@ function SocialLoginClient() {
   const { setUser, setIsAuthenticated, setRole } = useAuth();
 
   useEffect(() => {
-    if (!searchParams) return;
-
     const token = searchParams.get("token");
     if (!token) {
       toast.error("Google login failed. No token received.");
@@ -25,10 +23,12 @@ function SocialLoginClient() {
       return;
     }
 
-    // browser-only cookie
-    if (typeof document !== "undefined") {
-      document.cookie = `token=${token}; path=/; max-age=${7 * 24 * 60 * 60}`;
-    }
+    // ---------------------------
+    // Store token in cookie
+    // ---------------------------
+    // We'll use a simple cookie set (same as manual login)
+    // expiry: 7 days
+    document.cookie = `token=${token}; path=/; max-age=${7 * 24 * 60 * 60}`;
 
     setIsAuthenticated(true);
     setRole("user");
