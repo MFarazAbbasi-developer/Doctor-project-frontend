@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  reactStrictMode: true,
+  images: {
+    domains: [
+      "localhost",
+      "temp", // replace with your actual backend domain
+      "res.cloudinary.com",          // if using cloud storage like Cloudinary
+    ],
+  },
 };
 
 export default nextConfig;

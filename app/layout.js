@@ -1,6 +1,17 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { AuthProvider } from "@/context/AuthContext";
+import { Poppins } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import FloatingContact from "@/components/FloatingContact";
 
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"], // choose the weights you need
+  variable: "--font-poppins", // optional CSS variable
+});
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -20,9 +31,26 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-backgroundLight ${poppins.className}`}
       >
-        {children}
+        
+        <AuthProvider>
+          <Navbar />
+          {/* <FloatingContact /> */}
+          {children}
+          <Footer />
+          <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        </AuthProvider>
       </body>
     </html>
   );
