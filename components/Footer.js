@@ -42,7 +42,7 @@ export default function Footer() {
           <h3 className="font-semibold mb-4 text-[#2F92E0]">Contact Us</h3>
           <p className="text-gray-200">123 Health Street, Karachi, Pakistan</p>
           <p className="text-gray-200 mt-1">Email: support@projectname.com</p>
-          <p className="text-gray-200 mt-1">Phone: +92 300 1234567</p>
+          <p className="text-gray-200 mt-1">Phone: +92 301 2345678</p>
         </div>
       </div>
 
