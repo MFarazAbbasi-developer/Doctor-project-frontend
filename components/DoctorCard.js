@@ -1,4 +1,5 @@
 "use client";
+import { convertTo12Hour } from "@/utils/formatTime";
 import Link from "next/link";
 import { FaMapMarkerAlt, FaCheckCircle, FaClock, FaCalendarAlt, FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
@@ -24,9 +25,7 @@ const DoctorCard = ({ doc }) => {
     <div className="relative flex-shrink-0">
       <img
         src={
-          doc?.profileImage
-            ? process.env.NEXT_PUBLIC_API_IMAGE + doc.profileImage
-            : "/default-image.avif"
+          doc?.profileImage || "/default-image.avif"
         }
         alt="Doctor"
         className="rounded-full w-20 h-20 object-cover border-2 border-white shadow-md"
@@ -84,7 +83,7 @@ const DoctorCard = ({ doc }) => {
     {doc.availability?.timeSlots?.[0] && (
       <p className="flex items-center gap-2 text-gray-700 text-sm truncate">
         <FaClock className="text-primaryLight" />{" "}
-        {doc.availability.timeSlots[0].start} - {doc.availability.timeSlots[0].end}
+        {convertTo12Hour(doc.availability.timeSlots[0].start)} - {convertTo12Hour(doc.availability.timeSlots[0].end)}
       </p>
     )}
 

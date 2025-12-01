@@ -27,6 +27,7 @@ import {
 import { Hand, Stethoscope, BadgeCheck, DollarSign } from "lucide-react";
 
 import { GraduationCap, Award, Globe, Briefcase, Check } from "lucide-react";
+import { convertTo12Hour } from "@/utils/formatTime";
 export default function DoctorProfile() {
   const { slug } = useParams();
   const [doctor, setDoctor] = useState(null);
@@ -191,7 +192,7 @@ export default function DoctorProfile() {
                   :{" "}
                   {doctor.availability.timeSlots.map((slot, i) => (
                     <span key={i}>
-                      {slot.start} - {slot.end}
+                      {convertTo12Hour(slot.start)} - {convertTo12Hour(slot.end)}
                       {i < doctor.availability.timeSlots.length - 1 ? ", " : ""}
                     </span>
                   ))}
@@ -210,11 +211,7 @@ export default function DoctorProfile() {
               ></div>
 
               <img
-                src={
-                  doctor?.profileImage
-                    ? process.env.NEXT_PUBLIC_API_IMAGE + doctor.profileImage
-                    : "/default-image.avif"
-                }
+                src={doctor?.profileImage || "/default-image.avif"}
                 alt="Doctor"
                 className="relative w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 
           rounded-full object-cover border-4 border-white shadow-xl"
@@ -225,31 +222,29 @@ export default function DoctorProfile() {
       </section>
 
       {/* Services */}
-<section className="py-16 bg-backgroundLight">
-  <div className="max-w-7xl mx-auto text-center">
-    <h2 className="px-6 lg:px-20 text-3xl md:text-4xl font-bold text-primary drop-shadow-sm">
-      Services Offered
-    </h2>
-    <p className="px-6 lg:px-20 mt-3 text-gray-600 max-w-2xl mx-auto text-lg">
-      Explore the treatments and consultations provided by Dr.{" "}
-      {doctor?.name?.firstName} {doctor?.name?.lastName}.
-    </p>
+      <section className="py-16 bg-backgroundLight">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="px-6 lg:px-20 text-3xl md:text-4xl font-bold text-primary drop-shadow-sm">
+            Services Offered
+          </h2>
+          <p className="px-6 lg:px-20 mt-3 text-gray-600 max-w-2xl mx-auto text-lg">
+            Explore the treatments and consultations provided by Dr.{" "}
+            {doctor?.name?.firstName} {doctor?.name?.lastName}.
+          </p>
 
-    {/* Services list */}
-    <div className="mt-12 flex flex-wrap justify-center gap-4 px-6 lg:px-0">
-      {(doctor?.services || []).map((service, idx) => (
-        <span
-          key={idx}
-          className="inline-block px-6 py-3 bg-primary/10 text-primary font-semibold rounded-full shadow-md"
-        >
-          {service}
-        </span>
-      ))}
-    </div>
-  </div>
-</section>
-
-
+          {/* Services list */}
+          <div className="mt-12 flex flex-wrap justify-center gap-4 px-6 lg:px-0">
+            {(doctor?.services || []).map((service, idx) => (
+              <span
+                key={idx}
+                className="inline-block px-6 py-3 bg-primary/10 text-primary font-semibold rounded-full shadow-md"
+              >
+                {service}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Availability */}
       {/* <section className="px-6 lg:px-20 py-16 bg-white">

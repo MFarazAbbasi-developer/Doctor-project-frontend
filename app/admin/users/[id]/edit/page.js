@@ -48,7 +48,7 @@ const EditUser = () => {
           profileImage: null,
         });
         setImagePreview(
-          (getProfileImage(user.profileImage)) ||
+          (user.profileImage) ||
             null
         );
         console.log(

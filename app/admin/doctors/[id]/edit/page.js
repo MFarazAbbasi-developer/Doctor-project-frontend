@@ -94,7 +94,7 @@ const EditDoctorPage = () => {
             isBlocked: d.isBlocked,
             isAccountVerified: d.isAccountVerified,
           });
-          if (d.profileImage) setImagePreview(getProfileImage(d.profileImage));
+          if (d.profileImage) setImagePreview(d.profileImage);
         }
       } catch (err) {
         toast.error("Failed to fetch doctor data.");
