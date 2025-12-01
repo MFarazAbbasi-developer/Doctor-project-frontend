@@ -4,5 +4,7 @@ import FindDoctorsClient from "./FindDoctorsClient";
 export default function Page() {
   return (
     <Suspense fallback={<p>Loading...</p>}>
-  <FindDoctorsClient /></Suspense>)
+      <FindDoctorsClient />
+    </Suspense>
+  );
 }
