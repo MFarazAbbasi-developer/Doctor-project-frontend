@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic"; // <-- add this
+
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -9,13 +11,14 @@ export default function SocialLoginPage() {
   return <SocialLoginClient />;
 }
 
-// Client-side component to avoid SSR issues
 function SocialLoginClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { setUser, setIsAuthenticated, setRole } = useAuth();
 
   useEffect(() => {
+    if (!searchParams) return;
+
     const token = searchParams.get("token");
     if (!token) {
       toast.error("Google login failed. No token received.");
@@ -23,11 +26,6 @@ function SocialLoginClient() {
       return;
     }
 
-    // ---------------------------
-    // Store token in cookie
-    // ---------------------------
-    // We'll use a simple cookie set (same as manual login)
-    // expiry: 7 days
     document.cookie = `token=${token}; path=/; max-age=${7 * 24 * 60 * 60}`;
 
     setIsAuthenticated(true);
