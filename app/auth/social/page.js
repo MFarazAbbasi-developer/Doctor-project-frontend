@@ -1,45 +1,8 @@
+// app/auth/social/page.js
 "use client";
 
-export const dynamic = "force-dynamic"; // <-- add this
-
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
-import { toast } from "react-toastify";
+import SocialLoginClient from "./SocialLoginClient";
 
 export default function SocialLoginPage() {
   return <SocialLoginClient />;
-}
-
-function SocialLoginClient() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const { setUser, setIsAuthenticated, setRole } = useAuth();
-
-  useEffect(() => {
-    if (!searchParams) return;
-
-    const token = searchParams.get("token");
-    if (!token) {
-      toast.error("Google login failed. No token received.");
-      router.replace("/login");
-      return;
-    }
-
-    document.cookie = `token=${token}; path=/; max-age=${7 * 24 * 60 * 60}`;
-
-    setIsAuthenticated(true);
-    setRole("user");
-    setUser(null);
-
-    router.replace("/");
-  }, [searchParams, router, setIsAuthenticated, setRole, setUser]);
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-backgroundLight px-4">
-      <p className="text-gray-700 text-lg md:text-xl">
-        Logging you in with Google...
-      </p>
-    </div>
-  );
 }
