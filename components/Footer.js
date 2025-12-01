@@ -20,8 +20,8 @@ export default function Footer() {
           <h3 className="font-semibold mb-4 text-[#2F92E0]">About Us</h3>
           <ul className="space-y-2 text-gray-200 ">
             <li><Link href="/" className="hover:text-backgroundLight transition">Home</Link></li>
-            <li><Link href="/doctors" className="hover:text-backgroundLight transition">Find Doctors</Link></li>
-            <li><Link href="/hospital" className="hover:text-backgroundLight transition">Hospitals</Link></li>
+            <li><Link href="/find-doctors" className="hover:text-backgroundLight transition">Find Doctors</Link></li>
+            <li><Link href="/hospitals" className="hover:text-backgroundLight transition">Hospitals</Link></li>
             {/* <li><Link href="/medicines" className="hover:text-backgroundLight transition">Medicines</Link></li>
             <li><Link href="/Surgeries" className="hover:text-backgroundLight transition">Surgeries</Link></li> */}
           </ul>
@@ -31,9 +31,9 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-4 text-[#2F92E0]">Services</h3>
           <ul className="space-y-2 text-gray-200 ">
-            <li><Link href="/Help" className="hover:text-backgroundLight transition">Help Center</Link></li>
-            <li><Link href="/contact" className="hover:text-backgroundLight transition">Contact Us</Link></li>
-            <li><Link href="/Facilities" className="hover:text-backgroundLight transition">Facilities</Link></li>
+            <li><Link href="/" className="hover:text-backgroundLight transition">Help Center</Link></li>
+            <li><Link href="/" className="hover:text-backgroundLight transition">Contact Us</Link></li>
+            <li><Link href="/" className="hover:text-backgroundLight transition">Facilities</Link></li>
           </ul>
         </div>
 
