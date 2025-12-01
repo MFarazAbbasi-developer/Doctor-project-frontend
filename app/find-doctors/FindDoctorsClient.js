@@ -5,7 +5,6 @@ import DoctorCard from "@/components/DoctorCard";
 import { fetchDoctors } from "@/lib/fetchDoctors";
 import dynamic from "next/dynamic";
 import { useSearchParams, useRouter } from "next/navigation";
-import { FiSearch } from "react-icons/fi";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
@@ -20,10 +19,7 @@ const customSelectStyles = {
     boxShadow: "none",
     "&:hover": { borderColor: "#1C427A" },
   }),
-  menu: (provided) => ({
-    ...provided,
-    borderRadius: "1rem",
-  }),
+  menu: (provided) => ({ ...provided, borderRadius: "1rem" }),
   option: (provided, state) => ({
     ...provided,
     backgroundColor: state.isFocused ? "#2B8AD4" : "#fff",
@@ -36,34 +32,20 @@ export default function FindDoctorsClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // URL-synced state
   const [page, setPage] = useState(Number(searchParams.get("page") || 1));
   const [search, setSearch] = useState(searchParams.get("search") || "");
-  const [specialization, setSpecialization] = useState(
-    searchParams.get("specialization") || ""
-  );
+  const [specialization, setSpecialization] = useState(searchParams.get("specialization") || "");
   const [city, setCity] = useState(searchParams.get("city") || "");
-  const [sort, setSort] = useState(
-    searchParams.get("sort") || "mostExperienced"
-  );
+  const [sort, setSort] = useState(searchParams.get("sort") || "mostExperienced");
 
-  useEffect(() => {
-    const newSearch = searchParams.get("search") || "";
-    setSearch(newSearch);
-  }, [searchParams]);
-
-  // Data state
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [totalPages, setTotalPages] = useState(1);
-
-  // Dropdown options
   const [specializationOptions, setSpecializationOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
 
   const limit = 12;
-
   const sortOptions = [
     { value: "mostExperienced", label: "Most Experienced" },
     { value: "newest", label: "Newest" },
@@ -78,52 +60,23 @@ export default function FindDoctorsClient() {
   const getDoctors = useCallback(async () => {
     setLoading(true);
     setError("");
-
     try {
-      const data = await fetchDoctors({
-        page,
-        limit,
-        search,
-        specialization,
-        city,
-        sort,
-      });
-
+      const data = await fetchDoctors({ page, limit, search, specialization, city, sort });
       setDoctors(data.doctors || []);
       setTotalPages(data.totalPages || 1);
 
-      if (specializationOptions.length === 0 && data.filters?.specializations) {
-        setSpecializationOptions(
-          data.filters.specializations.map((s) => ({
-            value: s,
-            label: s,
-          }))
-        );
+      if (!specializationOptions.length && data.filters?.specializations) {
+        setSpecializationOptions(data.filters.specializations.map((s) => ({ value: s, label: s })));
       }
-
-      if (cityOptions.length === 0 && data.filters?.cities) {
-        setCityOptions(
-          data.filters.cities.map((c) => ({
-            value: c,
-            label: c,
-          }))
-        );
+      if (!cityOptions.length && data.filters?.cities) {
+        setCityOptions(data.filters.cities.map((c) => ({ value: c, label: c })));
       }
-    } catch (err) {
+    } catch {
       setError("Failed to fetch doctors. Please try again.");
     } finally {
       setLoading(false);
     }
-  }, [
-    page,
-    limit,
-    search,
-    specialization,
-    city,
-    sort,
-    specializationOptions.length,
-    cityOptions.length,
-  ]);
+  }, [page, limit, search, specialization, city, sort, specializationOptions.length, cityOptions.length]);
 
   useEffect(() => {
     const timeout = setTimeout(() => getDoctors(), 400);
@@ -137,9 +90,8 @@ export default function FindDoctorsClient() {
     if (specialization) params.set("specialization", specialization);
     if (city) params.set("city", city);
     if (sort) params.set("sort", sort);
-
     router.replace(`/find-doctors?${params.toString()}`);
-  }, [page, search, specialization, city, sort]);
+  }, [page, search, specialization, city, sort, router]);
 
   const resetFilters = () => {
     setSearch("");
