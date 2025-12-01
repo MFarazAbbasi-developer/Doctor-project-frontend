@@ -1,3 +1,6 @@
+"use client"; // Make this layout client-side
+
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -9,14 +12,13 @@ import FloatingContact from "@/components/FloatingContact";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"], // choose the weights you need
-  variable: "--font-poppins", // optional CSS variable
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins",
 });
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -33,23 +35,25 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-backgroundLight ${poppins.className}`}
       >
-        
         <AuthProvider>
           <Navbar />
           {/* <FloatingContact /> */}
-          {children}
+
+          {/* Wrap children in Suspense for client-side hooks */}
+          <Suspense fallback={<p>Loading...</p>}>{children}</Suspense>
+
           <Footer />
           <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </AuthProvider>
       </body>
     </html>
