@@ -11,31 +11,24 @@ export default function SocialLogin() {
   const { setUser, setIsAuthenticated, setRole } = useAuth();
 
   useEffect(() => {
-    const token = searchParams.get("token");
+    if (!searchParams) return; // <-- ensure it exists
 
+    const token = searchParams.get("token");
     if (!token) {
       toast.error("Google login failed. No token received.");
       router.replace("/login");
       return;
     }
 
-    // ---------------------------
-    // Store token in cookie
-    // ---------------------------
-    // We'll use a simple cookie set (same as manual login)
-    // expiry: 7 days
-    document.cookie = `token=${token}; path=/; max-age=${7 * 24 * 60 * 60}`;
+    // browser-only
+    if (typeof document !== "undefined") {
+      document.cookie = `token=${token}; path=/; max-age=${7 * 24 * 60 * 60}`;
+    }
 
-    // ---------------------------
-    // Update Auth Context
-    // ---------------------------
-    // Optionally, you could decode token to extract user info
-    // or fetch /auth/me from backend
     setIsAuthenticated(true);
-    setRole("user"); // assuming social login is for normal user role
-    setUser(null); // you can fetch user info from /auth/me if needed
+    setRole("user");
+    setUser(null);
 
-    // Redirect to homepage or desired route
     router.replace("/");
   }, [searchParams, router, setIsAuthenticated, setRole, setUser]);
 
