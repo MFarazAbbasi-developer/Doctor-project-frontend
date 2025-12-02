@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import DoctorCard from "@/components/DoctorCard";
 import { fetchDoctors } from "@/lib/fetchDoctors";
 import dynamic from "next/dynamic";
@@ -101,7 +101,7 @@ export default function FindDoctorsClient() {
   };
 
   return (
-    <>
+    <Suspense fallback={<p>Loading...</p>}>
       {/* HERO SECTION */}
       <section className="bg-gradient-to-r from-primaryLight to-[#1C427A] px-6 lg:px-20 py-20 text-white">
         <div className="max-w-6xl mx-auto text-center space-y-4">
@@ -297,6 +297,6 @@ export default function FindDoctorsClient() {
           </div>
         )}
       </section>
-    </>
+    </Suspense>
   );
 }
