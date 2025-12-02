@@ -26,7 +26,7 @@ export default function EditProfilePage() {
   });
 
   const [profileImage, setProfileImage] = useState(null);
-  const [preview, setPreview] = useState("/default-avatar.png");
+  const [preview, setPreview] = useState("/default-image.avif");
   const [loading, setLoading] = useState(false);
   const [loadingPwd, setLoadingPwd] = useState(false);
 
@@ -52,7 +52,7 @@ export default function EditProfilePage() {
           currentPassword: "",
           newPassword: "",
         });
-        setPreview(getProfileImage(data.profileImage));
+        setPreview(data.profileImage);
       } catch (err) {
         console.error(err);
         toast.error("Failed to load user data");
@@ -164,11 +164,11 @@ export default function EditProfilePage() {
               <div className="flex justify-center mb-4">
                 <div className="relative">
                   <img
-                    src={preview}
+                    src={preview || "/default-image.avif"}
                     alt="Profile Preview"
                     className="w-28 h-28 rounded-full object-cover border-4 border-primaryLight"
                     onError={(e) => {
-                      e.currentTarget.src = "/default-avatar.png";
+                      e.currentTarget.src = "/default-image.avif";
                     }}
                   />
                   <label className="absolute bottom-0 right-0 bg-primary p-2 rounded-full cursor-pointer hover:bg-primaryLight transition">

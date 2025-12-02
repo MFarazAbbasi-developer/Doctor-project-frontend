@@ -240,7 +240,7 @@ export default function Navbar() {
                     className="flex items-center gap-2"
                   >
                     <img
-                      src={getProfileImage(user?.profileImage)}
+                      src={user?.profileImage}
                       alt="User"
                       className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-primaryLight"
                       onError={(e) => {
