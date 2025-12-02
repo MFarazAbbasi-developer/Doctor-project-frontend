@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { formatNIC } from "@/utils/formatNIC";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
@@ -8,7 +8,15 @@ import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
-export default function Signup() {
+export default function Wrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Signup />
+    </Suspense>
+  );
+}
+
+function Signup() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
