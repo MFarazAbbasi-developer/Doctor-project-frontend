@@ -5,17 +5,21 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { Poppins } from "next/font/google";
 import { ToastContainer } from "react-toastify";
-import ClientWrapper from "./ClientWrapper";
+import FloatingContact from "@/components/FloatingContact";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-poppins",
+  weight: ["300", "400", "500", "600", "700"], // choose the weights you need
+  variable: "--font-poppins", // optional CSS variable
 });
-const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
-const geistMono = Geist_Mono({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata = {
@@ -29,21 +33,23 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-backgroundLight ${poppins.className}`}
       >
+        
         <AuthProvider>
           <Navbar />
-          <ClientWrapper>{children}</ClientWrapper>
+          {/* <FloatingContact /> */}
+          {children}
           <Footer />
           <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         </AuthProvider>
       </body>
     </html>
