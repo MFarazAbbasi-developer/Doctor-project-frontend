@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import DoctorCard from "@/components/DoctorCard";
 import { fetchDoctors } from "@/lib/fetchDoctors";
 import dynamic from "next/dynamic";
@@ -31,7 +31,16 @@ const customSelectStyles = {
   }),
 };
 
-export default function FindDoctorsPage() {
+export default function Wrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <FindDoctorsPage />
+    </Suspense>
+  );
+}
+
+
+function FindDoctorsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
