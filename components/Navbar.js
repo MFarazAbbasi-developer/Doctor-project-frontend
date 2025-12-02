@@ -117,6 +117,22 @@ export default function Navbar() {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+const [signupOpen, setSignupOpen] = useState(false)
+const [loginOpen, setLoginOpen] = useState(false)
+const signupDropdownRef = useRef(null);
+useEffect(() => {
+  const handleClickOutside = (e) => {
+    if (signupDropdownRef.current && !signupDropdownRef.current.contains(e.target)) {
+      setSignupOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
   return (
     <>
@@ -212,20 +228,57 @@ export default function Navbar() {
 
               {/* Login/Signup buttons for desktop */}
               {!loading && !isAuthenticated && (
-                <>
-                  <Link
-                    href="/signup"
-                    className="hidden lg:block px-4 py-2 border border-primaryLight text-primaryLight rounded-lg hover:bg-primaryLight hover:text-white transition"
-                  >
-                    Sign Up
-                  </Link>
-                  <Link
-                    href="/login"
-                    className="px-4 py-2 bg-primaryLight text-white rounded-lg hover:bg-primary transition"
-                  >
-                    Login
-                  </Link>
-                </>
+                <div className="relative flex items-center gap-3">
+
+  {/* SIGN UP WITH DROPDOWN */}
+  <div className="relative hidden lg:block" ref={signupDropdownRef}>
+    <button
+      onClick={() => setSignupOpen(!signupOpen)}
+      className="px-4 py-2 border border-primaryLight text-primaryLight rounded-lg hover:bg-primaryLight hover:text-white transition  flex items-center gap-1"
+    >
+      Sign Up
+      <svg
+        className={`w-3 h-3 transition-transform ${signupOpen ? "rotate-180" : ""}`}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    {signupOpen && (
+      <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+        <Link
+          href="/signup"
+          onClick={() => setSignupOpen(false)}
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+        >
+          As a Patient
+        </Link>
+        <Link
+          href="/signup/doctor"
+          onClick={() => setSignupOpen(false)}
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+        >
+          As a Doctor
+        </Link>
+      </div>
+    )}
+  </div>
+
+  {/* LOGIN BUTTON */}
+  <Link
+    href="/login"
+    className="px-4 py-2 bg-primaryLight text-white rounded-lg hover:bg-primary transition"
+  >
+    Login
+  </Link>
+
+</div>
+
+
               )}
 
               {/* User menu when authenticated */}
@@ -323,6 +376,13 @@ export default function Navbar() {
 
           {!isAuthenticated && (
             <>
+              <Link
+                href="/signup/doctor"
+                className="block py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Join as Doctor
+              </Link>
               <Link
                 href="/signup"
                 className="block py-2"

@@ -308,6 +308,17 @@ function Signup() {
                   Log in
                 </a>
               </p>
+              {/* Doctor Signup Link */}
+<p className="text-center text-gray-700 mt-2 text-sm">
+  Are you a doctor?{" "}
+  <a
+    href="/signup/doctor"
+    className="text-primaryLight font-medium hover:underline"
+  >
+    Sign up as a Doctor
+  </a>
+</p>
+
             </form>
           </div>
         </div>

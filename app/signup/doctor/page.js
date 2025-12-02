@@ -267,14 +267,14 @@ payload.append("consultationFee[currency]", formData.consultationFee.currency);
     <div className="px-6 lg:px-20 py-10 max-w-4xl mx-auto">
       <button
         type="button"
-        onClick={() => router.push("/admin/doctors")}
+        onClick={() => router.push("/signup")}
         className="flex items-center gap-2 mb-6 text-gray-600 hover:text-gray-900 transition"
       >
-        <ArrowLeft className="w-5 h-5" /> Back to Doctors
+        <ArrowLeft className="w-5 h-5" /> Sign Up as Patient
       </button>
 
       <h1 className="text-4xl font-extrabold text-primary mb-10 text-center">
-        Add Doctor
+        Doctor Registration
       </h1>
 
       <form onSubmit={handleSubmit} className="space-y-10">
