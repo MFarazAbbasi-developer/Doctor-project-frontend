@@ -145,7 +145,9 @@ export default function DoctorProfile() {
     rounded-full text-white font-medium text-xs sm:text-sm flex items-center gap-2 shadow-sm"
               >
                 <BadgeCheck className="w-4 h-4" />
-                {doctor?.experienceYears} Years
+                {doctor?.experienceYears
+                  ? `${doctor.experienceYears} Years`
+                  : "No Experience Info"}
               </span>
 
               {/* Rating & Review Stats */}
@@ -177,8 +179,11 @@ export default function DoctorProfile() {
                 <MapPin className="w-4 h-4 mt-0.5" />
                 {doctor?.clinicAddress?.street &&
                   `${doctor.clinicAddress.street}, `}
-                {doctor?.clinicAddress?.city}, {doctor?.clinicAddress?.province}{" "}
-                {doctor?.clinicAddress?.zipCode},{" "}
+                {doctor?.clinicAddress?.city},{" "}
+                {doctor?.clinicAddress?.province &&
+                  `${doctor.clinicAddress.province}, `}
+                {doctor?.clinicAddress?.zipCode &&
+                  `${doctor.clinicAddress.zipCode}, `}
                 {doctor?.clinicAddress?.country}
               </span>
 
@@ -192,7 +197,8 @@ export default function DoctorProfile() {
                   :{" "}
                   {doctor.availability.timeSlots.map((slot, i) => (
                     <span key={i}>
-                      {convertTo12Hour(slot.start)} - {convertTo12Hour(slot.end)}
+                      {convertTo12Hour(slot.start)} -{" "}
+                      {convertTo12Hour(slot.end)}
                       {i < doctor.availability.timeSlots.length - 1 ? ", " : ""}
                     </span>
                   ))}
@@ -222,29 +228,32 @@ export default function DoctorProfile() {
       </section>
 
       {/* Services */}
-      <section className="py-16 bg-backgroundLight">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="px-6 lg:px-20 text-3xl md:text-4xl font-bold text-primary drop-shadow-sm">
-            Services Offered
-          </h2>
-          <p className="px-6 lg:px-20 mt-3 text-gray-600 max-w-2xl mx-auto text-lg">
-            Explore the treatments and consultations provided by Dr.{" "}
-            {doctor?.name?.firstName} {doctor?.name?.lastName}.
-          </p>
 
-          {/* Services list */}
-          <div className="mt-12 flex flex-wrap justify-center gap-4 px-6 lg:px-0">
-            {(doctor?.services || []).map((service, idx) => (
-              <span
-                key={idx}
-                className="inline-block px-6 py-3 bg-primary/10 text-primary font-semibold rounded-full shadow-md"
-              >
-                {service}
-              </span>
-            ))}
+      {doctor?.services && doctor.services.length > 0 && (
+        <section className="py-16 bg-backgroundLight">
+          <div className="max-w-7xl mx-auto text-center">
+            <h2 className="px-6 lg:px-20 text-3xl md:text-4xl font-bold text-primary drop-shadow-sm">
+              Services Offered
+            </h2>
+            <p className="px-6 lg:px-20 mt-3 text-gray-600 max-w-2xl mx-auto text-lg">
+              Explore the treatments and consultations provided by Dr.{" "}
+              {doctor?.name?.firstName} {doctor?.name?.lastName}.
+            </p>
+
+            {/* Services list */}
+            <div className="mt-12 flex flex-wrap justify-center gap-4 px-6 lg:px-0">
+              {(doctor?.services || []).map((service, idx) => (
+                <span
+                  key={idx}
+                  className="inline-block px-6 py-3 bg-primary/10 text-primary font-semibold rounded-full shadow-md"
+                >
+                  {service}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Availability */}
       {/* <section className="px-6 lg:px-20 py-16 bg-white">

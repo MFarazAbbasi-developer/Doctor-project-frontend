@@ -258,7 +258,7 @@ useEffect(() => {
           As a Patient
         </Link>
         <Link
-          href="/signup/doctor"
+          href="/signup?role=doctor"
           onClick={() => setSignupOpen(false)}
           className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
         >
@@ -293,7 +293,7 @@ useEffect(() => {
                     className="flex items-center gap-2"
                   >
                     <img
-                      src={user?.profileImage}
+                      src={user?.profileImage || "/default-image.avif"}
                       alt="User"
                       className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-primaryLight"
                       onError={(e) => {
@@ -377,7 +377,7 @@ useEffect(() => {
           {!isAuthenticated && (
             <>
               <Link
-                href="/signup/doctor"
+                href="/signup"
                 className="block py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >

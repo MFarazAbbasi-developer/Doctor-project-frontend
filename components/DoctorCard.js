@@ -46,11 +46,17 @@ const DoctorCard = ({ doc }) => {
       </p>
 
       {/* Experience label */}
-      {doc.experienceYears && (
+      {doc.experienceYears ? (
         <span className="inline-block mt-2 bg-primaryLight/10 text-primaryLight text-xs font-medium px-3 py-1 rounded-full">
           {doc.experienceYears} yrs experience
         </span>
-      )}
+      )
+      :
+      (<span className="inline-block mt-2 bg-gray-200 text-gray-600 text-xs font-medium px-3 py-1 rounded-full">
+          Experience not listed
+        </span>
+      )
+    }
 
       {/* Rating */}
       <div className="flex items-center gap-2 mt-2 text-sm">
@@ -73,17 +79,28 @@ const DoctorCard = ({ doc }) => {
 
   {/* Body */}
   <div className="p-5 space-y-2">
-    {doc.availability?.days?.length > 0 && (
+    {doc.availability?.days?.length > 0 ? (
       <p className="flex items-center gap-2 text-gray-700 text-sm truncate">
         <FaCalendarAlt className="text-primaryLight" />{" "}
         {doc.availability.days.map((d) => d.slice(0, 3)).join(", ")}
       </p>
+    )
+    : (
+      <p className="flex items-center gap-2 text-gray-700 text-sm truncate">
+        <FaCalendarAlt className="text-primaryLight" />{" "}
+        Availability not listed
+      </p>
     )}
 
-    {doc.availability?.timeSlots?.[0] && (
+    {doc.availability?.timeSlots?.[0] ? (
       <p className="flex items-center gap-2 text-gray-700 text-sm truncate">
         <FaClock className="text-primaryLight" />{" "}
         {convertTo12Hour(doc.availability.timeSlots[0].start)} - {convertTo12Hour(doc.availability.timeSlots[0].end)}
+      </p>
+    ) : (
+      <p className="flex items-center gap-2 text-gray-700 text-sm truncate">
+        <FaClock className="text-primaryLight" />{" "}
+        Timing not listed
       </p>
     )}
 
