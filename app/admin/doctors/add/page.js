@@ -182,7 +182,7 @@ const AddDoctorPage = () => {
 
       if (data.success) {
         toast.success("Doctor added successfully!");
-        // router.push("/admin/doctors");
+        router.push("/admin/doctors");
       } else {
         toast.error(data.message || "Failed to add doctor");
       }
