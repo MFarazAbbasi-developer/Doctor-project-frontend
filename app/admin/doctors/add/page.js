@@ -6,7 +6,21 @@ import { api } from "@/lib/api";
 import { toast } from "react-toastify";
 import { ArrowLeft } from "lucide-react";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
-
+// import Select from "react-select";
+import dynamic from "next/dynamic";
+// import React-Select dynamically to prevent SSR hydration issues
+const Select = dynamic(() => import("react-select"), { ssr: false });
+import { specializations } from "@/data/specializations";
+const customSelectStyles = {
+  control: (provided) => ({
+    ...provided,
+    borderRadius: "0.75rem",
+    borderColor: "#000000",
+    padding: "0.1rem",
+    minHeight: "3rem",
+  }),
+  placeholder: (provided) => ({ ...provided, color: "#9CA3AF" }),
+};
 const AddDoctorPage = () => {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
@@ -31,6 +45,10 @@ const AddDoctorPage = () => {
       timeSlots: [{ start: "", end: "" }],
     },
   });
+  const specializationOptions = specializations.map((s) => ({
+    label: s,
+    value: s,
+  }));
 
   /* --------------------------- Handlers --------------------------- */
   // Handle field state changes with formatting
@@ -62,9 +80,9 @@ const AddDoctorPage = () => {
   };
 
   const canAddEducation = () => {
-  const last = formData.educationBackground.at(-1);
-  return last.degree && last.institution && last.year;
-};
+    const last = formData.educationBackground.at(-1);
+    return last.degree && last.institution && last.year;
+  };
 
   const addEducation = () =>
     setFormData((p) => ({
@@ -82,9 +100,9 @@ const AddDoctorPage = () => {
 
   // Availability handlers
   const canAddTimeSlot = () => {
-  const last = formData.availability.timeSlots.at(-1);
-  return last.start && last.end;
-};
+    const last = formData.availability.timeSlots.at(-1);
+    return last.start && last.end;
+  };
 
   const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const toggleDay = (day) => {
@@ -267,13 +285,23 @@ const AddDoctorPage = () => {
             Professional Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              name="specialization"
-              label="Specialization"
-              value={formData.specialization}
-              handleChange={handleChange}
-              required
-            />
+            <div>
+              <Select
+                value={
+                  specializationOptions.find(
+                    (opt) => opt.value === formData?.specialization
+                  )
+                }
+                onChange={(val) =>
+                  setFormData((p) => ({ ...p, specialization: val }))
+                }
+                options={specializationOptions}
+                styles={customSelectStyles}
+                placeholder="Select Specialization"
+                isSearchable
+                isClearable
+              />
+            </div>
             <Input
               name="experienceYears"
               type="number"
@@ -309,27 +337,29 @@ const AddDoctorPage = () => {
                     handleEduChange(i, "year", e.target.value)
                   }
                 />
-                { formData.educationBackground.length > 1 &&
-                <button
-                  type="button"
-                  onClick={() => removeEducation(i)}
-                  className="px-3 bg-red-500 text-white rounded"
-                >
-                  Remove
-                </button>}
+                {formData.educationBackground.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeEducation(i)}
+                    className="px-3 bg-red-500 text-white rounded"
+                  >
+                    Remove
+                  </button>
+                )}
               </div>
             ))}
             <button
-  type="button"
-  onClick={addEducation}
-  disabled={!canAddEducation()}
-  className={`px-3 py-1 rounded text-white ${
-    canAddEducation() ? "bg-primary" : "bg-gray-400 cursor-not-allowed"
-  }`}
->
-  Add Education
-</button>
-
+              type="button"
+              onClick={addEducation}
+              disabled={!canAddEducation()}
+              className={`px-3 py-1 rounded text-white ${
+                canAddEducation()
+                  ? "bg-primary"
+                  : "bg-gray-400 cursor-not-allowed"
+              }`}
+            >
+              Add Education
+            </button>
           </div>
 
           {/* Availability */}
@@ -369,27 +399,29 @@ const AddDoctorPage = () => {
                   }
                   className="input-field"
                 />
-                { formData.availability.timeSlots.length > 1 &&
-                <button
-                  type="button"
-                  onClick={() => removeTimeSlot(i)}
-                  className="px-3 bg-red-500 text-white rounded"
-                >
-                  Remove
-                </button>}
+                {formData.availability.timeSlots.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeTimeSlot(i)}
+                    className="px-3 bg-red-500 text-white rounded"
+                  >
+                    Remove
+                  </button>
+                )}
               </div>
             ))}
             <button
-  type="button"
-  onClick={addTimeSlot}
-  disabled={!canAddTimeSlot()}
-  className={`px-3 py-1 rounded text-white ${
-    canAddTimeSlot() ? "bg-primary" : "bg-gray-400 cursor-not-allowed"
-  }`}
->
-  Add Time Slot
-</button>
-
+              type="button"
+              onClick={addTimeSlot}
+              disabled={!canAddTimeSlot()}
+              className={`px-3 py-1 rounded text-white ${
+                canAddTimeSlot()
+                  ? "bg-primary"
+                  : "bg-gray-400 cursor-not-allowed"
+              }`}
+            >
+              Add Time Slot
+            </button>
           </div>
         </section>
 
@@ -442,19 +474,18 @@ const Input = ({
   required,
 }) => (
   <div className="relative">
-  <label className="floating-label">
-    {label}
-    {required && <span className="text-red-500 ml-1">*</span>}
-  </label>
+    <label className="floating-label">
+      {label}
+      {required && <span className="text-red-500 ml-1">*</span>}
+    </label>
 
-  <input
-    type={type}
-    name={name}
-    value={value}
-    onChange={handleChange}
-    required={required}
-    className="input-field"
-  />
-</div>
-
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={handleChange}
+      required={required}
+      className="input-field"
+    />
+  </div>
 );
