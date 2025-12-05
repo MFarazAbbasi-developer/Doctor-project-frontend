@@ -182,8 +182,8 @@ const AddDoctorPage = () => {
 
       if (data.success) {
         toast.success("Doctor added successfully!");
-        // router.push("/admin/doctors");
-        router.push("/admin/doctors/add");
+        router.push("/admin/doctors");
+        // router.push("/admin/doctors/add");
       } else {
         toast.error(data.message || "Failed to add doctor");
       }
@@ -442,14 +442,19 @@ const Input = ({
   required,
 }) => (
   <div className="relative">
-    <label className="floating-label">{label}</label>
-    <input
-      type={type}
-      name={name}
-      value={value}
-      onChange={handleChange}
-      required={required}
-      className="input-field"
-    />
-  </div>
+  <label className="floating-label">
+    {label}
+    {required && <span className="text-red-500 ml-1">*</span>}
+  </label>
+
+  <input
+    type={type}
+    name={name}
+    value={value}
+    onChange={handleChange}
+    required={required}
+    className="input-field"
+  />
+</div>
+
 );
