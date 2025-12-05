@@ -300,6 +300,7 @@ const AddDoctorPage = () => {
                 placeholder="Select Specialization"
                 isSearchable
                 isClearable
+                required
               />
             </div>
             <Input
