@@ -293,7 +293,7 @@ const AddDoctorPage = () => {
                   )
                 }
                 onChange={(val) =>
-                  setFormData((p) => ({ ...p, specialization: val }))
+                  setFormData((p) => ({ ...p, specialization: val?.value }))
                 }
                 options={specializationOptions}
                 styles={customSelectStyles}
