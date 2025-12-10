@@ -81,7 +81,8 @@ const AddDoctorPage = () => {
 
   const canAddEducation = () => {
     const last = formData.educationBackground.at(-1);
-    return last.degree && last.institution && last.year;
+    // return last.degree && last.institution && last.year;
+    return last.degree;
   };
 
   const addEducation = () =>
